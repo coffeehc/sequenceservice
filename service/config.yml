@@ -1,0 +1,7 @@
+webserver:
+  serverAddr: '0.0.0.0:10999'
+
+discover:
+
+debug:
+  enableAccessInfo: true
