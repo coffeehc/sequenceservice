@@ -2,6 +2,7 @@ package sequenceservice
 
 import (
 	"fmt"
+
 	"github.com/coffeehc/microserviceboot/base"
 	"github.com/coffeehc/web"
 )

@@ -2,10 +2,11 @@ package main
 
 import (
 	"baseservices/sequenceservice"
-	"github.com/coffeehc/microserviceboot/serviceboot"
-	"github.com/coffeehc/web"
 	"net/http"
 	"strconv"
+
+	"github.com/coffeehc/microserviceboot/serviceboot"
+	"github.com/coffeehc/web"
 )
 
 func (this *SequenceService) post_sequence(request *http.Request, pathFragments map[string]string, reply web.Reply) {

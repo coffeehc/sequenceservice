@@ -3,6 +3,7 @@ package main
 import (
 	"baseservices/sequenceservice"
 	"flag"
+
 	"github.com/coffeehc/cfsequence"
 	"github.com/coffeehc/microserviceboot/base"
 	"github.com/coffeehc/microserviceboot/consultool"

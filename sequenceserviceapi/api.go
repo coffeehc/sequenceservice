@@ -3,10 +3,11 @@ package sequenceserviceapi
 import (
 	"baseservices/sequenceservice"
 	"fmt"
+	"strconv"
+
 	"github.com/coffeehc/logger"
 	"github.com/coffeehc/microserviceboot/base"
 	"github.com/coffeehc/microserviceboot/serviceclient"
-	"strconv"
 )
 
 type SequenceServiceApi interface {
