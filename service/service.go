@@ -58,6 +58,10 @@ func (this *SequenceService) GetEndPoints() []base.EndPoint {
 			Metadata:    sequenceservice.GET_SEQUENCE,
 			HandlerFunc: this.get_sequence,
 		},
+		base.EndPoint{
+			Metadata:    sequenceservice.GET_MINSEQUENCE,
+			HandlerFunc: this.get_minSequence,
+		},
 	}
 }
 

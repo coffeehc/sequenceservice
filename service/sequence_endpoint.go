@@ -20,6 +20,15 @@ func (this *SequenceService) get_sequence(request *http.Request, pathFragments m
 	if err != nil {
 		panic("非法的 sequence")
 	}
-	reply.With(this.sequenceService.ParseSequence(sequence))
+	sequenceId := this.sequenceService.ParseSequence(sequence)
+	reply.With(strconv.FormatInt(sequenceId.CreateTime.UnixNano(), 10)).As(web.Transport_Text)
+}
 
+func (this *SequenceService) get_minSequence(request *http.Request, pathFragments map[string]string, reply web.Reply) {
+	defer serviceboot.ErrorRecover(reply)
+	sequence, err := strconv.ParseInt(pathFragments[sequenceservice.PATHPARAM_TIMESTEMP], 10, 64)
+	if err != nil {
+		panic("非法的 sequence")
+	}
+	reply.With(strconv.FormatInt(this.sequenceService.MinId(sequence), 10)).As(web.Transport_Text)
 }
