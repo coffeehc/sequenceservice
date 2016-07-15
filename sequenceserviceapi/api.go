@@ -59,11 +59,11 @@ func (this *_SequenceServiceApi) GetSequenceCreateTime(sequence int64) (time.Tim
 		sequenceservice.PATHPARAM_SQUENCE: strconv.FormatInt(sequence, 10),
 	}, nil, nil)
 	if err != nil {
-		return 0, base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return time.Unix(0, 0), base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
 	}
 	id, err := strconv.ParseInt(fmt.Sprintf("%s", response.Body()), 10, 64)
 	if err != nil {
-		return 0, base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return time.Unix(0, 0), base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
 	}
 	return time.Unix(0, id), nil
 }
