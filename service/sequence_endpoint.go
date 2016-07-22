@@ -17,12 +17,12 @@ func (this *SequenceService) post_sequence(request *http.Request, pathFragments 
 
 func (this *SequenceService) get_sequence(request *http.Request, pathFragments map[string]string, reply web.Reply) {
 	defer serviceboot.ErrorRecover(reply)
-	sequence, err := strconv.ParseInt(pathFragments[sequenceservice.PATHPARAM_SQUENCE], 10, 64)
+	sequenceId, err := strconv.ParseInt(pathFragments[sequenceservice.PATHPARAM_SQUENCE], 10, 64)
 	if err != nil {
 		panic(base.NewBizErr(base.ERROR_CODE_BASE_INVALID_PARAMTER, "非法的 sequence"))
 	}
-	sequenceId := this.sequenceService.ParseSequence(sequence)
-	reply.With(strconv.FormatInt(sequenceId.CreateTime.UnixNano(), 10)).As(web.Transport_Text)
+	sequence := this.sequenceService.ParseSequence(sequenceId)
+	reply.With(strconv.FormatInt(sequence.CreateTime.UnixNano(), 10)).As(web.Transport_Text)
 }
 
 func (this *SequenceService) get_minSequence(request *http.Request, pathFragments map[string]string, reply web.Reply) {
