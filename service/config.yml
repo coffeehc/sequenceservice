@@ -5,3 +5,5 @@ discover:
 
 debug:
   enableAccessInfo: true
+
+#disableServiceRegister: true

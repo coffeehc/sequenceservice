@@ -12,9 +12,9 @@ import (
 )
 
 type SequenceServiceApi interface {
-	GetSequenceCreateTime(sequence int64) (time.Time, *base.Error)
-	NextId() (int64, *base.Error)
-	MinId(milTime int64) (int64, *base.Error)
+	GetSequenceCreateTime(sequence int64) (time.Time, base.Error)
+	NextId() (int64, base.Error)
+	MinId(milTime int64) (int64, base.Error)
 }
 
 const (
@@ -23,7 +23,7 @@ const (
 	GET_MINSEQUENCE = "GET_MINSEQUENCE"
 )
 
-func NewSqeuenceServiceApi(discoveryConfig *serviceclient.ServiceClientConsulConfig) (SequenceServiceApi, error) {
+func NewSequenceServiceApi(discoveryConfig *serviceclient.ServiceClientConsulConfig) (SequenceServiceApi, error) {
 	serviceClient, err := serviceclient.NewServiceClient(&sequenceservice.SequenceServiceInfo{}, discoveryConfig)
 	if err != nil {
 		return nil, err
@@ -42,42 +42,42 @@ type _SequenceServiceApi struct {
 	serviceClient *serviceclient.ServiceClient
 }
 
-func (this *_SequenceServiceApi) NextId() (int64, *base.Error) {
+func (this *_SequenceServiceApi) NextId() (int64, base.Error) {
 	response, err := this.serviceClient.SyncCallApi(POST_SEQUENCE, nil, nil, nil)
 	if err != nil {
-		return 0, base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return 0, base.NewBizErr(base.ERROR_CODE_BASE_RESPONSE_API_ERROR, err.Error())
 	}
 	id, err := strconv.ParseInt(fmt.Sprintf("%s", response.Body()), 10, 64)
 	if err != nil {
-		return 0, base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return 0, base.NewBizErr(base.ERROR_CODE_BASE_DECODE_ERROR, err.Error())
 	}
 	return id, nil
 }
 
-func (this *_SequenceServiceApi) GetSequenceCreateTime(sequence int64) (time.Time, *base.Error) {
+func (this *_SequenceServiceApi) GetSequenceCreateTime(sequence int64) (time.Time, base.Error) {
 	response, err := this.serviceClient.SyncCallApi(GET_SEQUENCE, map[string]string{
 		sequenceservice.PATHPARAM_SQUENCE: strconv.FormatInt(sequence, 10),
 	}, nil, nil)
 	if err != nil {
-		return time.Unix(0, 0), base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return time.Unix(0, 0), base.NewBizErr(base.ERROR_CODE_BASE_RESPONSE_API_ERROR, err.Error())
 	}
 	id, err := strconv.ParseInt(fmt.Sprintf("%s", response.Body()), 10, 64)
 	if err != nil {
-		return time.Unix(0, 0), base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return time.Unix(0, 0), base.NewBizErr(base.ERROR_CODE_BASE_DECODE_ERROR, err.Error())
 	}
 	return time.Unix(0, id), nil
 }
 
-func (this *_SequenceServiceApi) MinId(milTime int64) (int64, *base.Error) {
+func (this *_SequenceServiceApi) MinId(milTime int64) (int64, base.Error) {
 	response, err := this.serviceClient.SyncCallApi(GET_MINSEQUENCE, map[string]string{
 		sequenceservice.PATHPARAM_TIMESTEMP: strconv.FormatInt(milTime, 10),
 	}, nil, nil)
 	if err != nil {
-		return 0, base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return 0, base.NewBizErr(base.ERROR_CODE_BASE_RESPONSE_API_ERROR, err.Error())
 	}
 	id, err := strconv.ParseInt(fmt.Sprintf("%s", response.Body()), 10, 64)
 	if err != nil {
-		return 0, base.NewSimpleError(-1, fmt.Sprintf("%s", err.Error()))
+		return 0, base.NewBizErr(base.ERROR_CODE_BASE_DECODE_ERROR, err.Error())
 	}
 	return id, nil
 }
