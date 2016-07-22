@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/coffeehc/baseservices/sequenceservice"
+	"github.com/coffeehc/sequenceservice"
 	"flag"
 
 	"github.com/coffeehc/cfsequence"
