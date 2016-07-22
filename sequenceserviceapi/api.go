@@ -1,7 +1,7 @@
 package sequenceserviceapi
 
 import (
-	"baseservices/sequenceservice"
+	"github.com/coffeehc/baseservices/sequenceservice"
 	"fmt"
 	"strconv"
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"baseservices/sequenceservice"
+	"github.com/coffeehc/baseservices/sequenceservice"
 	"net/http"
 	"strconv"
 
