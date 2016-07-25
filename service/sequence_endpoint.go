@@ -19,7 +19,7 @@ func (this *SequenceService) get_sequence(request *http.Request, pathFragments m
 	defer serviceboot.ErrorRecover(reply)
 	sequenceId, err := strconv.ParseInt(pathFragments[sequenceservice.PATHPARAM_SQUENCE], 10, 64)
 	if err != nil {
-		panic(base.NewBizErr(base.ERROR_CODE_BASE_INVALID_PARAMTER, "非法的 sequence"))
+		panic(base.NewError(base.ERROR_CODE_BASE_INVALID_PARAM, "非法的 sequence"))
 	}
 	sequence := this.sequenceService.ParseSequence(sequenceId)
 	reply.With(strconv.FormatInt(sequence.CreateTime.UnixNano(), 10)).As(web.Transport_Text)
@@ -29,7 +29,7 @@ func (this *SequenceService) get_minSequence(request *http.Request, pathFragment
 	defer serviceboot.ErrorRecover(reply)
 	sequence, err := strconv.ParseInt(pathFragments[sequenceservice.PATHPARAM_TIMESTEMP], 10, 64)
 	if err != nil {
-		panic(base.NewBizErr(base.ERROR_CODE_BASE_INVALID_PARAMTER, "非法的 sequence"))
+		panic(base.NewError(base.ERROR_CODE_BASE_INVALID_PARAM, "非法的 sequence"))
 	}
 	reply.With(strconv.FormatInt(this.sequenceService.MinId(sequence), 10)).As(web.Transport_Text)
 }

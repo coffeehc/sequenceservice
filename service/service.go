@@ -23,48 +23,51 @@ type SequenceService struct {
 	sequenceService          cfsequence.SequenceService
 }
 
-func (this *SequenceService) Init(configPath string, server *web.Server) error {
+func (service *SequenceService) Init(configPath string, server *web.Server) base.Error {
 	serviceConfig := new(Config)
 	err := base.LoadConfig(base.GetDefaultConfigPath(configPath), serviceConfig)
 	if err != nil {
 		return err
 	}
-	this.config = serviceConfig
-	this.serviceDiscoveryRegister, err = consultool.NewConsulServiceRegister(consultool.WarpConsulConfig(serviceConfig.ConsulConfig))
+	service.config = serviceConfig
+	service.serviceDiscoveryRegister, err = consultool.NewConsulServiceRegister(consultool.WarpConsulConfig(serviceConfig.ConsulConfig))
 	if err != nil {
 		return err
 	}
-	this.sequenceService = cfsequence.NewSequenceService(*nodeId)
+	if *nodeId == 0{
+		return base.NewError(base.ERROR_CODE_BASE_CONFIG_ERROR,"nodeId 不能为0,请设置非零值,如:-nodeid=1")
+	}
+	service.sequenceService = cfsequence.NewSequenceService(*nodeId)
 	return nil
 }
 
-func (this *SequenceService) Run() error {
+func (*SequenceService) Run() base.Error {
 	return nil
 
 }
-func (this *SequenceService) Stop() error {
+func (*SequenceService) Stop() base.Error {
 	return nil
 }
-func (this *SequenceService) GetServiceInfo() base.ServiceInfo {
+func (*SequenceService) GetServiceInfo() base.ServiceInfo {
 	return &sequenceservice.SequenceServiceInfo{}
 }
-func (this *SequenceService) GetEndPoints() []base.EndPoint {
+func (service *SequenceService) GetEndPoints() []base.EndPoint {
 	return []base.EndPoint{
 		base.EndPoint{
 			Metadata:    sequenceservice.POST_SEQUENCE,
-			HandlerFunc: this.post_sequence,
+			HandlerFunc: service.post_sequence,
 		},
 		base.EndPoint{
 			Metadata:    sequenceservice.GET_SEQUENCE,
-			HandlerFunc: this.get_sequence,
+			HandlerFunc: service.get_sequence,
 		},
 		base.EndPoint{
 			Metadata:    sequenceservice.GET_MINSEQUENCE,
-			HandlerFunc: this.get_minSequence,
+			HandlerFunc: service.get_minSequence,
 		},
 	}
 }
 
-func (this *SequenceService) GetServiceDiscoveryRegister() base.ServiceDiscoveryRegister {
-	return this.serviceDiscoveryRegister
+func (service *SequenceService) GetServiceDiscoveryRegister() base.ServiceDiscoveryRegister {
+	return service.serviceDiscoveryRegister
 }
